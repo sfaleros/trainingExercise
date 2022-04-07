@@ -2,11 +2,15 @@
 {% load static %}
 
 
+
 {% block content %}
 
-{%for i in Workers %}
 
-    <p>Workers.name</p>
+
+{% for i in Workers %}
+
+    <p>{{i.full_name}}</p>
+
 {% endfor %}
 
 {% endblock %}

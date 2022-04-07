@@ -13,6 +13,10 @@ class home(TemplateView):
         import random
 
         Workers =Workers.objects.all()
+        
+        for i in Workers:
+            if i.boss == lastboss:
+                
 
 
 
@@ -67,6 +71,6 @@ class home(TemplateView):
             #if lastPeopleRang== 0 :
             #    lastpeople +=1 
         '''
-        return render(request , 'workerTree/1.html',{Workers:Workers} )
+        return render(request , 'workerTree/1.html',{"Workers":Workers} )
         #return  HttpResponse(, {Workers=Workers})
 
