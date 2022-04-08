@@ -13,6 +13,7 @@ class home(TemplateView):
         import random
 
         Workers =Workers.objects.all()
+<<<<<<< HEAD
         lastboss=Workers[0].boss
         gen=[]
         genslist=[]
@@ -33,6 +34,15 @@ class home(TemplateView):
 
 
 
+=======
+        
+        for i in Workers:
+            if i.boss == lastboss:
+                
+
+
+
+>>>>>>> b34ed3f7c9d2cca6b2fb0417f5e29a1abde9e073
         '''
         gens=  16
         maxSalary= 10000000 
@@ -84,6 +94,10 @@ class home(TemplateView):
             #if lastPeopleRang== 0 :
             #    lastpeople +=1 
         '''
+<<<<<<< HEAD
         return render(request , 'workerTree/1.html',{"Workers":Workers, "genslist":genslist} )
+=======
+        return render(request , 'workerTree/1.html',{"Workers":Workers} )
+>>>>>>> b34ed3f7c9d2cca6b2fb0417f5e29a1abde9e073
         #return  HttpResponse(, {Workers=Workers})
 
