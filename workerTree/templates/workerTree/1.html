@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+{% block content %}
+
+
+<table>
+{% for i in genlist %}
+
+
+<tr>
+{% for a in i %}
+    
+    {{a.full_name}}
+
+{% endfor %}
+</tr>
+
+
+
+    
+
+{% endfor %}
+</table>
+{% endblock %}
