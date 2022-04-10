@@ -6,22 +6,23 @@
 {% block content %}
 
 
-<table>
+
 {% for i in genslist %}
-
-
+<center>
+<table>
+ 
 <tr>
 {% for a in i %}
     
-   <td>{{a.full_name}}</td> 
+   <td bgcolor="red">{{a.full_name}}</td> 
 
 {% endfor %}
 </tr>
 
 
-
-    
+</table> 
+</center> 
 
 {% endfor %}
-</table>
+
 {% endblock %}
