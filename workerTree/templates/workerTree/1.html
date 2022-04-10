@@ -6,22 +6,156 @@
 {% block content %}
 
 
-<table>
-{% for i in genslist %}
+<style>
+    .treemenu li { list-style: none; }
+.treemenu .toggler { cursor: pointer; }
+.treemenu .toggler:before { display: inline-block; margin-right: 2pt; }
+li.tree-empty > .toggler { opacity: 0.3; cursor: default; }
+li.tree-empty > .toggler:before { content: "\2212"; }
+li.tree-closed > .toggler:before { content: "+"; }
+li.tree-opened > .toggler:before { content: "\2212"; }
+</style>
+
+<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 
 
-<tr>
-{% for a in i %}
-    
-   <td>{{a.full_name}}</td> 
 
-{% endfor %}
-</tr>
+<script>/*
+    treeMenu - jQuery plugin
+    version: 0.6.2
+    Copyright 2014 Stepan Krapivin
+   */
+   (function($) {
+       $.fn.treemenu = function(options) {
+         options = options || {};
+         options.delay = options.delay || 0;
+         options.openActive = options.openActive || false;
+         options.closeOther = options.closeOther || false;
+         options.activeSelector = options.activeSelector || "active";
+     
+         this.addClass("treemenu");
+     
+         if (!options.nonroot) {
+           this.addClass("treemenu-root");
+         }
+     
+         options.nonroot = true;
+     
+         this.find("> li").each(function() {
+           e = $(this);
+           var subtree = e.find('> ul');
+           var button = e.find('.toggler').eq(0);
+     
+           if (button.length == 0) {
+             // create toggler
+             var button = $('<span>');
+             button.addClass('toggler');
+             e.prepend(button);
+           }
+     
+           if (subtree.length > 0) {
+             subtree.hide();
+             e.addClass('tree-closed');
+     
+             e.find(button).click(function() {
+               var li = $(this).parent('li');
+     
+               if (options.closeOther && li.hasClass('tree-closed')) {
+                 var siblings = li.parent('ul').find("li:not(.tree-empty)");
+                 siblings.removeClass("tree-opened");
+                 siblings.addClass("tree-closed");
+                 siblings.removeClass(options.activeSelector);
+                 siblings.find('> ul').slideUp(options.delay);
+               }
+     
+               li.find('> ul').slideToggle(options.delay);
+               li.toggleClass('tree-opened');
+               li.toggleClass('tree-closed');
+               li.toggleClass(options.activeSelector);
+             });
+     
+             $(this).find('> ul').treemenu(options);
+           } else {
+             $(this).addClass('tree-empty');
+           }
+         });
+     
+         if (options.openActive) {
+           var cls = this.attr("class");
+     
+           this.find('.'+options.activeSelector).each(function(){
+             var el = $(this).parent();
+     
+             while (el.attr("class") !== cls) {
+               el.find('> ul').show();
+               if(el.prop("tagName") === 'UL') {
+                 el.show();
+               } else if (el.prop("tagName") === 'LI') {
+                 el.removeClass('tree-closed');
+                 el.addClass("tree-opened");
+                 el.show();
+               }
+     
+               el = el.parent();
+             }
+           });
+         }
+     
+         return this;
+       }
+     })(jQuery);</script>
 
 
 
-    
+<ul class="tree">
 
-{% endfor %}
-</table>
+    {% for a in genslist.0 %}
+    <li><span>Category</span>
+        <ul id="{{a.id}}">
+
+        </ul>
+        </li>
+
+    {% endfor %}
+
+
+    {% for i in Workers %}
+ 
+       <script>
+        $("#{{i.boss.id}}").append('<li><span>Category</span><ul></ul id="{{i.id}}"> </li>');
+        </script>
+
+
+    {% endfor %}
+
+  </ul>
+
+  
+
+ 
+
+  <script>$(".tree").treemenu({delay:500}).openActive();</script>
+
+
+
+
+
 {% endblock %}
+
+
+
+
+
+<li><a href="#">jQuery</a>
+    <ul>
+        <li><a href="#">jQuery</a></li>
+        <li><a href="#">jQuery Mobile</a></li>
+    </ul>
+    </li>
+    <li><a href="#">JavaScript</a>
+    <ul>
+        <li><a class="active" href="#">AngularJS</a></li>
+        <li><a href="#">React</a></li>
+
+    </ul>
+    </li>
